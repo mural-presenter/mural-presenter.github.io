@@ -1,6 +1,6 @@
 {
   "../../node_modules/vinext/dist/shims/layout-segment-context.js": {
-    "file": "_next/static/chunks/layout-segment-context-lvi3GLTT.js",
+    "file": "_next/static/chunks/layout-segment-context-D00cGz8x.js",
     "name": "layout-segment-context",
     "src": "../../node_modules/vinext/dist/shims/layout-segment-context.js",
     "isDynamicEntry": true,
@@ -49,7 +49,7 @@
     "name": "site-path"
   },
   "app/AnimalCaseStudy.tsx": {
-    "file": "_next/static/chunks/AnimalCaseStudy-CGsiXDYK.js",
+    "file": "_next/static/chunks/AnimalCaseStudy-BshTT5K1.js",
     "name": "AnimalCaseStudy",
     "src": "app/AnimalCaseStudy.tsx",
     "isDynamicEntry": true,
@@ -111,7 +111,7 @@
     ]
   },
   "app/FeaturedDecks.tsx": {
-    "file": "_next/static/chunks/FeaturedDecks-BniHxqAE.js",
+    "file": "_next/static/chunks/FeaturedDecks-CY23_X_m.js",
     "name": "FeaturedDecks",
     "src": "app/FeaturedDecks.tsx",
     "isDynamicEntry": true,
@@ -146,15 +146,14 @@
     ]
   },
   "app/Leaderboard.tsx": {
-    "file": "_next/static/chunks/Leaderboard-HKQ7gg9N.js",
+    "file": "_next/static/chunks/Leaderboard-B30oudwB.js",
     "name": "Leaderboard",
     "src": "app/Leaderboard.tsx",
     "isDynamicEntry": true,
     "imports": [
       "_framework-BgSIrAUN.js",
       "_choice-keyboard-CC97Vaw7.js",
-      "_language-navigation-B1iY5f1G.js",
-      "_site-path-BMU22obe.js"
+      "_language-navigation-B1iY5f1G.js"
     ]
   },
   "app/ProjectNavSections.tsx": {
@@ -168,7 +167,7 @@
     ]
   },
   "virtual:vinext-app-browser-entry": {
-    "file": "_next/static/chunks/index-B75u7CFG.js",
+    "file": "_next/static/chunks/index-CZoTSkf0.js",
     "name": "index",
     "src": "virtual:vinext-app-browser-entry",
     "isEntry": true,
