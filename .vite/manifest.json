@@ -1,6 +1,6 @@
 {
   "../../node_modules/vinext/dist/shims/layout-segment-context.js": {
-    "file": "_next/static/chunks/layout-segment-context-C-J8h89Y.js",
+    "file": "_next/static/chunks/layout-segment-context-DbHugrl3.js",
     "name": "layout-segment-context",
     "src": "../../node_modules/vinext/dist/shims/layout-segment-context.js",
     "isDynamicEntry": true,
@@ -111,7 +111,7 @@
     ]
   },
   "app/FeaturedDecks.tsx": {
-    "file": "_next/static/chunks/FeaturedDecks-CY23_X_m.js",
+    "file": "_next/static/chunks/FeaturedDecks-DsVaradw.js",
     "name": "FeaturedDecks",
     "src": "app/FeaturedDecks.tsx",
     "isDynamicEntry": true,
@@ -167,7 +167,7 @@
     ]
   },
   "virtual:vinext-app-browser-entry": {
-    "file": "_next/static/chunks/index-C8D42zcQ.js",
+    "file": "_next/static/chunks/index-CSpSVWKs.js",
     "name": "index",
     "src": "virtual:vinext-app-browser-entry",
     "isEntry": true,
