@@ -1,0 +1,1 @@
+function e(e,t,n,r){let i=e.key===`Home`?0:e.key===`End`?n-1:e.key===`ArrowRight`?(t+1)%n:e.key===`ArrowLeft`?(t+n-1)%n:null;if(i===null)return;e.preventDefault(),r(i);let a=e.currentTarget.parentElement.querySelectorAll(`:scope > button`)[i];a.focus({preventScroll:!0}),a.scrollIntoView({block:`nearest`,inline:`nearest`,behavior:`instant`})}export{e as t};

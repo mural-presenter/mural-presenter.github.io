@@ -1,0 +1,1 @@
+function e(e){return!e.startsWith(`/`)||e.startsWith(`//`)?e:(e=e.replace(/^(\/(?:zh(?:\/(?:arena|paper|blog))?|arena|paper|blog))(?=[?#]|$)/,`$1/`),`${e}`)}export{e as t};

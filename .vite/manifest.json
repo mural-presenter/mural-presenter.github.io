@@ -1,0 +1,194 @@
+{
+  "../../node_modules/vinext/dist/shims/layout-segment-context.js": {
+    "file": "_next/static/chunks/layout-segment-context-lvi3GLTT.js",
+    "name": "layout-segment-context",
+    "src": "../../node_modules/vinext/dist/shims/layout-segment-context.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-C60lm6uB.js",
+      "virtual:vinext-app-browser-entry",
+      "_framework-BgSIrAUN.js"
+    ]
+  },
+  "_arena-cases-CTwqDhRT.js": {
+    "file": "_next/static/chunks/arena-cases-CTwqDhRT.js",
+    "name": "arena-cases",
+    "imports": [
+      "_cases-0919-CrTUHYNq.js"
+    ]
+  },
+  "_cases-0919-CrTUHYNq.js": {
+    "file": "_next/static/chunks/cases-0919-CrTUHYNq.js",
+    "name": "cases-0919"
+  },
+  "_choice-keyboard-CC97Vaw7.js": {
+    "file": "_next/static/chunks/choice-keyboard-CC97Vaw7.js",
+    "name": "choice-keyboard"
+  },
+  "_framework-BgSIrAUN.js": {
+    "file": "_next/static/chunks/framework-BgSIrAUN.js",
+    "name": "framework",
+    "imports": [
+      "_rolldown-runtime-C60lm6uB.js"
+    ]
+  },
+  "_language-navigation-B1iY5f1G.js": {
+    "file": "_next/static/chunks/language-navigation-B1iY5f1G.js",
+    "name": "language-navigation",
+    "imports": [
+      "_rolldown-runtime-C60lm6uB.js",
+      "_framework-BgSIrAUN.js"
+    ]
+  },
+  "_rolldown-runtime-C60lm6uB.js": {
+    "file": "_next/static/chunks/rolldown-runtime-C60lm6uB.js",
+    "name": "rolldown-runtime"
+  },
+  "_site-path-BMU22obe.js": {
+    "file": "_next/static/chunks/site-path-BMU22obe.js",
+    "name": "site-path"
+  },
+  "app/AnimalCaseStudy.tsx": {
+    "file": "_next/static/chunks/AnimalCaseStudy-CGsiXDYK.js",
+    "name": "AnimalCaseStudy",
+    "src": "app/AnimalCaseStudy.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-C60lm6uB.js",
+      "_framework-BgSIrAUN.js",
+      "app/AnimalNavigation.tsx",
+      "_choice-keyboard-CC97Vaw7.js",
+      "_language-navigation-B1iY5f1G.js",
+      "_site-path-BMU22obe.js"
+    ]
+  },
+  "app/AnimalNavigation.tsx": {
+    "file": "_next/static/chunks/AnimalNavigation-BjTz0LUb.js",
+    "name": "AnimalNavigation",
+    "src": "app/AnimalNavigation.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_framework-BgSIrAUN.js",
+      "_choice-keyboard-CC97Vaw7.js",
+      "_language-navigation-B1iY5f1G.js",
+      "_site-path-BMU22obe.js"
+    ]
+  },
+  "app/ArenaStage.tsx": {
+    "file": "_next/static/chunks/ArenaStage-Ior4PGkO.js",
+    "name": "ArenaStage",
+    "src": "app/ArenaStage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-C60lm6uB.js",
+      "_framework-BgSIrAUN.js",
+      "_arena-cases-CTwqDhRT.js",
+      "_language-navigation-B1iY5f1G.js",
+      "_site-path-BMU22obe.js"
+    ]
+  },
+  "app/CaseGallery.tsx": {
+    "file": "_next/static/chunks/CaseGallery--U_b-ldg.js",
+    "name": "CaseGallery",
+    "src": "app/CaseGallery.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-C60lm6uB.js",
+      "_framework-BgSIrAUN.js",
+      "_arena-cases-CTwqDhRT.js",
+      "_language-navigation-B1iY5f1G.js",
+      "_site-path-BMU22obe.js"
+    ]
+  },
+  "app/EditorialMotion.tsx": {
+    "file": "_next/static/chunks/EditorialMotion-gBXTSwbx.js",
+    "name": "EditorialMotion",
+    "src": "app/EditorialMotion.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-C60lm6uB.js",
+      "_framework-BgSIrAUN.js"
+    ]
+  },
+  "app/FeaturedDecks.tsx": {
+    "file": "_next/static/chunks/FeaturedDecks-BniHxqAE.js",
+    "name": "FeaturedDecks",
+    "src": "app/FeaturedDecks.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-C60lm6uB.js",
+      "_framework-BgSIrAUN.js",
+      "_cases-0919-CrTUHYNq.js",
+      "_language-navigation-B1iY5f1G.js",
+      "_site-path-BMU22obe.js"
+    ]
+  },
+  "app/HeroExplorer.tsx": {
+    "file": "_next/static/chunks/HeroExplorer-BWJf1DkK.js",
+    "name": "HeroExplorer",
+    "src": "app/HeroExplorer.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-C60lm6uB.js",
+      "_framework-BgSIrAUN.js",
+      "_site-path-BMU22obe.js"
+    ]
+  },
+  "app/LanguageLink.tsx": {
+    "file": "_next/static/chunks/LanguageLink-BthFplh8.js",
+    "name": "LanguageLink",
+    "src": "app/LanguageLink.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-C60lm6uB.js",
+      "_framework-BgSIrAUN.js",
+      "_language-navigation-B1iY5f1G.js"
+    ]
+  },
+  "app/Leaderboard.tsx": {
+    "file": "_next/static/chunks/Leaderboard-HKQ7gg9N.js",
+    "name": "Leaderboard",
+    "src": "app/Leaderboard.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_framework-BgSIrAUN.js",
+      "_choice-keyboard-CC97Vaw7.js",
+      "_language-navigation-B1iY5f1G.js",
+      "_site-path-BMU22obe.js"
+    ]
+  },
+  "app/ProjectNavSections.tsx": {
+    "file": "_next/static/chunks/ProjectNavSections-C2VwI-ww.js",
+    "name": "ProjectNavSections",
+    "src": "app/ProjectNavSections.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-C60lm6uB.js",
+      "_framework-BgSIrAUN.js"
+    ]
+  },
+  "virtual:vinext-app-browser-entry": {
+    "file": "_next/static/chunks/index-B75u7CFG.js",
+    "name": "index",
+    "src": "virtual:vinext-app-browser-entry",
+    "isEntry": true,
+    "imports": [
+      "_rolldown-runtime-C60lm6uB.js",
+      "_framework-BgSIrAUN.js"
+    ],
+    "dynamicImports": [
+      "app/LanguageLink.tsx",
+      "virtual:vinext-app-browser-entry",
+      "app/HeroExplorer.tsx",
+      "app/Leaderboard.tsx",
+      "app/EditorialMotion.tsx",
+      "app/FeaturedDecks.tsx",
+      "app/ArenaStage.tsx",
+      "app/AnimalNavigation.tsx",
+      "../../node_modules/vinext/dist/shims/layout-segment-context.js",
+      "app/ProjectNavSections.tsx",
+      "app/CaseGallery.tsx",
+      "app/AnimalCaseStudy.tsx"
+    ]
+  }
+}

@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root { color-scheme: light; }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: transparent; }
+    body { cursor: none; user-select: none; -webkit-user-select: none; }
+    canvas { width: 100%; height: 100%; display: block; touch-action: pan-y; }
+    .brush {
+      width: 44px;
+      height: 58px;
+      position: fixed;
+      z-index: 4;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate3d(var(--brush-x, 0px), var(--brush-y, 0px), 0) translate(-10px, -44px) rotate(calc(-34deg + var(--brush-turn, 0deg))) scale(var(--brush-scale, 1));
+      transition: opacity 120ms ease;
+      filter: drop-shadow(0 7px 5px rgba(22, 47, 40, .28));
+    }
+    .brush.is-visible { opacity: 1; }
+    .intro-coat { position: absolute; inset: 0; pointer-events: none; }
+    .intro-coat[hidden] { display: none; }
+    #plaster { transition: opacity 1.2s cubic-bezier(.22, .61, .36, 1); }
+    body:not([data-intro="ready"]) :is(#plaster, .hint, .meter, .reset) { opacity: 0; }
+    .brush.is-auto { display: block; opacity: 1; --brush-scale: 1.8; transform-origin: 10px 44px; }
+    .brush.is-auto.is-lifted { opacity: .55; --brush-scale: 1.55; }
+    .brush::before {
+      content: "";
+      width: 27px;
+      height: 20px;
+      position: absolute;
+      left: 1px;
+      bottom: 0;
+      border-radius: 3px 3px 8px 8px;
+      background:
+        repeating-linear-gradient(90deg, rgba(4, 73, 69, .9) 0 3px, rgba(32, 145, 133, .88) 3px 6px),
+        #0c7771;
+      box-shadow: inset 0 6px 0 #d7ab69;
+      clip-path: polygon(0 0, 100% 0, 88% 100%, 8% 92%);
+    }
+    .brush::after {
+      content: "";
+      width: 8px;
+      height: 43px;
+      position: absolute;
+      left: 10px;
+      top: 0;
+      border-radius: 6px;
+      background: linear-gradient(90deg, #895124, #d9903b 48%, #75421d);
+      box-shadow: inset 1px 0 0 rgba(255,255,255,.3);
+    }
+    .hint {
+      padding: 10px 12px;
+      position: fixed;
+      top: 88px;
+      right: 18px;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: #17383a;
+      border: 1px solid rgba(23, 56, 58, .18);
+      border-radius: 999px;
+      background: rgba(238, 226, 201, .82);
+      box-shadow: 0 10px 28px rgba(27, 58, 50, .09);
+      font: 500 14px/1.5 system-ui, "PingFang SC", "Microsoft YaHei", sans-serif;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      pointer-events: none;
+      backdrop-filter: blur(12px);
+      transition: opacity .3s ease, transform .3s ease;
+    }
+    .hint i { width: 8px; height: 8px; border-radius: 50%; background: #dc8515; box-shadow: 0 0 0 5px rgba(220,133,21,.14); }
+    .hint.is-quiet { opacity: .44; transform: translateY(-3px); }
+    .meter {
+      height: 3px;
+      position: fixed;
+      right: 18px;
+      bottom: 17px;
+      left: 18px;
+      z-index: 3;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(23, 56, 58, .13);
+      pointer-events: none;
+    }
+    .meter > i { width: 0; height: 100%; display: block; border-radius: inherit; background: linear-gradient(90deg, #0c7771, #42c6b6 72%, #dd8617); transition: width .25s ease; }
+    .reset {
+      padding: 8px 10px;
+      position: fixed;
+      right: 18px;
+      bottom: 27px;
+      z-index: 5;
+      color: rgba(23, 56, 58, .74);
+      border: 0;
+      border-radius: 7px;
+      background: rgba(238, 226, 201, .78);
+      font: 500 14px/1.5 system-ui, "PingFang SC", "Microsoft YaHei", sans-serif;
+      letter-spacing: .08em;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(5px);
+      transition: opacity .2s ease, transform .2s ease, background .2s ease;
+      backdrop-filter: blur(10px);
+    }
+    .reset[hidden] { display: none; }
+    .reset:focus-visible { outline: 3px solid #0b7774; outline-offset: 3px; }
+    .reset.is-visible { opacity: 1; transform: none; }
+    .reset:hover { background: #f3e8d1; }
+    @media (max-width: 760px) {
+      body { cursor: auto; }
+      .brush, .hint, .meter, .reset { display: none; }
+      canvas { touch-action: pan-y; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #plaster, .brush, .hint, .meter > i, .reset { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="plaster" aria-label="Interactive painted wall"></canvas>
+  <canvas class="intro-coat" aria-hidden="true" hidden></canvas>
+  <div class="brush" aria-hidden="true"></div>
+  <div class="hint"><i></i><span>Move the brush to reveal</span></div>
+  <button class="reset" type="button" hidden>Reset wall</button>
+  <div class="meter" aria-hidden="true"><i></i></div>
+  <script>
+    (() => {
+      if (window.muralPaintReady) return;
+      window.muralPaintReady = true;
+      const canvas = document.querySelector('#plaster');
+      const context = canvas.getContext('2d', { alpha: true });
+      const brush = document.querySelector('.brush');
+      const hint = document.querySelector('.hint');
+      const hintText = hint.querySelector('span');
+      const meter = document.querySelector('.meter > i');
+      const resetButton = document.querySelector('.reset');
+      const isZh = document.documentElement.lang.startsWith('zh');
+      const intro = document.querySelector('.intro-coat');
+      const introContext = intro.getContext('2d');
+      const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+      const points = [];
+      let introFrame = 0;
+      let introActive = false;
+      let introHold = 0;
+      let introPhase = 'waiting';
+      let previous = null;
+      let latest = null;
+      let frame = 0;
+      let coverage = 0;
+      let drawingTouch = false;
+
+      document.documentElement.lang = isZh ? 'zh-CN' : 'en';
+      hintText.textContent = isZh ? '移动画笔，让壁画浮现' : 'Move the brush to reveal';
+      resetButton.textContent = isZh ? '重新粉刷' : 'Reset wall';
+      canvas.setAttribute('aria-label', isZh ? '移动鼠标显露壁画' : 'Move the pointer to reveal the mural');
+
+      function fit() {
+        if (introActive || introHold) finishIntro();
+        const ratio = Math.min(devicePixelRatio || 1, 2);
+        canvas.width = Math.round(innerWidth * ratio);
+        canvas.height = Math.round(innerHeight * ratio);
+        context.setTransform(ratio, 0, 0, ratio, 0, 0);
+        repaint();
+      }
+
+      function plaster() {
+        context.globalCompositeOperation = 'source-over';
+        context.clearRect(0, 0, innerWidth, innerHeight);
+        const wash = context.createLinearGradient(0, 0, innerWidth, innerHeight);
+        wash.addColorStop(0, 'rgba(251, 245, 231, .28)');
+        wash.addColorStop(.48, 'rgba(251, 245, 231, .14)');
+        wash.addColorStop(1, 'rgba(251, 245, 231, .06)');
+        context.fillStyle = wash;
+        context.fillRect(0, 0, innerWidth, innerHeight);
+        context.fillStyle = 'rgba(95, 78, 54, .055)';
+        const total = Math.min(1300, Math.round(innerWidth * innerHeight / 780));
+        context.beginPath();
+        for (let i = 0; i < total; i += 1) {
+          const x = (i * 73.37) % innerWidth;
+          const y = (i * 41.91 + (i % 7) * 19) % innerHeight;
+          const radius = .35 + (i % 4) * .22;
+          context.moveTo(x + radius, y);
+          context.arc(x, y, radius, 0, Math.PI * 2);
+        }
+        context.fill();
+      }
+
+      /* 入场与手动粉刷共享画笔形状：落笔显露、换向抬笔，不改变原图像素。 */
+      function publishIntro(phase) {
+        introPhase = phase;
+        document.body.dataset.intro = phase;
+        parent.postMessage({ type: 'mural:intro', phase }, '*');
+      }
+
+      function finishIntro(hold = false) {
+        cancelAnimationFrame(introFrame);
+        clearTimeout(introHold);
+        introHold = 0;
+        introFrame = 0;
+        introActive = false;
+        intro.hidden = true;
+        brush.classList.remove('is-auto', 'is-lifted');
+        brush.style.removeProperty('--brush-turn');
+        publishIntro(hold ? 'revealed' : 'ready');
+        if (hold) introHold = setTimeout(() => {
+          introHold = 0;
+          publishIntro('ready');
+        }, 700);
+      }
+
+      function startIntro() {
+        if (reducedMotion.matches) { finishIntro(); return; }
+        const portrait = innerWidth < 768;
+        const ratio = Math.min(devicePixelRatio || 1, 2);
+        intro.width = Math.round(innerWidth * ratio);
+        intro.height = Math.round(innerHeight * ratio);
+        introContext.setTransform(ratio, 0, 0, ratio, 0, 0);
+        introContext.fillStyle = '#fbf5e7';
+        introContext.fillRect(0, 0, innerWidth, innerHeight);
+        intro.hidden = false;
+        introActive = true;
+        publishIntro('painting');
+        brush.classList.add('is-auto');
+        const artHeight = portrait ? innerHeight : innerWidth / 3;
+        const artTop = portrait ? 0 : innerHeight - artHeight;
+        const passes = portrait ? 3 : 4;
+        const duration = portrait ? 540 : 470;
+        const lift = 110;
+        const breadth = portrait ? innerWidth * .43 : artHeight * .43;
+        const started = performance.now();
+        let last = null;
+        let lastPass = -1;
+        function pointAt(pass, progress) {
+          const along = pass % 2 ? 1 - progress : progress;
+          return portrait
+            ? { x: innerWidth * (.15 + pass * .35) + Math.sin(progress * Math.PI * 2) * 4, y: innerHeight * (-.1 + along * 1.2) }
+            : { x: innerWidth * (-.06 + along * 1.12), y: artTop + artHeight * (.065 + pass * .285) + Math.sin(progress * Math.PI * 2) * 7 };
+        }
+        function stroke(a, b) {
+          introContext.globalCompositeOperation = 'destination-out';
+          introContext.lineCap = 'round';
+          introContext.strokeStyle = 'rgba(0,0,0,1)';
+          introContext.lineWidth = breadth * .82;
+          introContext.beginPath();
+          introContext.moveTo(a.x, a.y);
+          introContext.lineTo(b.x, b.y);
+          introContext.stroke();
+          [-.49, -.45, -.42, .42, .45, .49].forEach((edge, index) => {
+            const offset = edge * breadth;
+            introContext.strokeStyle = `rgba(0,0,0,${.55 + index % 3 * .16})`;
+            introContext.lineWidth = breadth * .055;
+            introContext.beginPath();
+            introContext.moveTo(a.x + (portrait ? offset : 0), a.y + (portrait ? 0 : offset));
+            introContext.lineTo(b.x + (portrait ? offset : 0), b.y + (portrait ? 0 : offset));
+            introContext.stroke();
+          });
+        }
+        function draw() {
+          const elapsed = performance.now() - started;
+          const pass = Math.min(passes, Math.floor(elapsed / (duration + lift)));
+          // 按真实时间推进；低帧率时补齐已走过的笔迹，避免入场被拖成漫长等待。
+          if (pass !== lastPass && lastPass >= 0) stroke(last, pointAt(lastPass, 1));
+          for (let skipped = lastPass + 1; skipped < pass; skipped++) {
+            stroke(pointAt(skipped, 0), pointAt(skipped, 1));
+          }
+          if (pass >= passes) { finishIntro(true); return; }
+          document.body.dataset.introPass = String(pass + 1);
+          const phase = elapsed % (duration + lift);
+          const drawing = phase <= duration;
+          const progress = Math.min(1, phase / duration);
+          const eased = progress * progress * (3 - 2 * progress);
+          let point = pointAt(pass, eased);
+          if (drawing) {
+            if (lastPass !== pass) last = pointAt(pass, 0);
+            stroke(last, point);
+            last = point;
+            lastPass = pass;
+          } else if (pass < passes - 1) {
+            const next = pointAt(pass + 1, 0);
+            const turn = (phase - duration) / lift;
+            point = { x: point.x + (next.x - point.x) * turn, y: point.y + (next.y - point.y) * turn };
+          }
+          brush.classList.toggle('is-lifted', !drawing);
+          brush.style.setProperty('--brush-x', `${point.x}px`);
+          brush.style.setProperty('--brush-y', `${point.y}px`);
+          brush.style.setProperty('--brush-turn', `${portrait ? 70 : pass % 2 ? 65 : 0}deg`);
+          introFrame = requestAnimationFrame(draw);
+        }
+        introFrame = requestAnimationFrame(draw);
+      }
+
+      function eraseSegment(a, b) {
+        const dx = b.x - a.x;
+        const dy = b.y - a.y;
+        const angle = Math.atan2(dy, dx);
+        context.save();
+        context.globalCompositeOperation = 'destination-out';
+        context.lineCap = 'round';
+        context.lineJoin = 'round';
+        [[154, .24], [126, .5], [102, .82], [78, 1]].forEach(([width, alpha]) => {
+          context.lineWidth = width;
+          context.strokeStyle = `rgba(0,0,0,${alpha})`;
+          context.beginPath();
+          context.moveTo(a.x, a.y);
+          context.lineTo(b.x, b.y);
+          context.stroke();
+        });
+        context.strokeStyle = 'rgba(0,0,0,.72)';
+        context.lineWidth = 5;
+        [-48, -32, 32, 48].forEach((offset) => {
+          const ox = Math.cos(angle + Math.PI / 2) * offset;
+          const oy = Math.sin(angle + Math.PI / 2) * offset;
+          context.beginPath();
+          context.moveTo(a.x + ox, a.y + oy);
+          context.lineTo(b.x + ox, b.y + oy);
+          context.stroke();
+        });
+        context.restore();
+      }
+
+      function replay() {
+        if (points.length < 2) return;
+        for (let i = 1; i < points.length; i += 1) {
+          eraseSegment(
+            { x: points[i - 1].x * innerWidth, y: points[i - 1].y * innerHeight },
+            { x: points[i].x * innerWidth, y: points[i].y * innerHeight }
+          );
+        }
+      }
+
+      function repaint() { plaster(); replay(); }
+
+      function paint(point) {
+        if (!previous) previous = point;
+        const distance = Math.hypot(point.x - previous.x, point.y - previous.y);
+        eraseSegment(previous, point);
+        if (distance > 1) {
+          coverage = Math.min(100, coverage + distance * 110 / Math.max(1, innerWidth * innerHeight) * 100);
+          meter.style.width = `${coverage}%`;
+          points.push({ x: point.x / innerWidth, y: point.y / innerHeight });
+        }
+        previous = point;
+        if (points.length > 1) {
+          hint.classList.add('is-quiet');
+          resetButton.hidden = false;
+          resetButton.classList.add('is-visible');
+        }
+      }
+
+      function flush() {
+        frame = 0;
+        if (!latest) return;
+        paint(latest);
+        latest = null;
+      }
+
+      function queue(point) {
+        latest = point;
+        if (!frame) frame = requestAnimationFrame(flush);
+      }
+
+      canvas.addEventListener('pointerenter', (event) => {
+        if (event.pointerType === 'mouse') brush.classList.add('is-visible');
+      });
+      canvas.addEventListener('pointerleave', () => {
+        brush.classList.remove('is-visible');
+        previous = null;
+      });
+      canvas.addEventListener('pointermove', (event) => {
+        if (introPhase !== 'ready') return;
+        brush.style.setProperty('--brush-x', `${event.clientX}px`);
+        brush.style.setProperty('--brush-y', `${event.clientY}px`);
+        if (event.pointerType === 'mouse') brush.classList.add('is-visible');
+        if (event.pointerType === 'mouse' || drawingTouch) queue({ x: event.clientX, y: event.clientY });
+      });
+      canvas.addEventListener('pointerdown', (event) => {
+        if (introPhase !== 'ready') finishIntro();
+        if (event.pointerType !== 'mouse') drawingTouch = true;
+        previous = { x: event.clientX, y: event.clientY };
+        queue(previous);
+      });
+      canvas.addEventListener('pointerup', () => { drawingTouch = false; previous = null; });
+      canvas.addEventListener('pointercancel', () => { drawingTouch = false; previous = null; });
+      resetButton.addEventListener('pointerenter', () => brush.classList.remove('is-visible'));
+      resetButton.addEventListener('click', () => {
+        points.length = 0;
+        previous = null;
+        coverage = 0;
+        meter.style.width = '0%';
+        hint.classList.remove('is-quiet');
+        resetButton.classList.remove('is-visible');
+        resetButton.hidden = true;
+        repaint();
+      });
+      addEventListener('resize', fit, { passive: true });
+      addEventListener('pagehide', () => { cancelAnimationFrame(frame); finishIntro(); });
+      reducedMotion.addEventListener('change', () => finishIntro());
+      addEventListener('message', event => {
+        if (event.source !== parent) return;
+        if (event.data?.type === 'mural:sync') publishIntro(introPhase);
+        if (event.data?.type === 'mural:skip') finishIntro();
+      });
+      fit();
+      startIntro();
+    })();
+  </script>
+</body>
+</html>
