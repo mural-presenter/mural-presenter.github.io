@@ -1,13 +1,13 @@
 {
-  "snapshotDate": "2026-10-10",
+  "snapshotDate": "2026-10-14",
   "source": "Manuscript benchmark tables",
-  "sourceSha256": "d5e87892c199b7b8fbb839315a4769719ff8e98e2ce08f3f65f7618ea6491a0b",
+  "sourceSha256": "adab7424ca9684b398bcc0ce716498f2a92ad9b94692d236c1fe9d1d69280021",
   "tableLabels": [
     "tab:general",
     "tab:slidesgen-main",
+    "tab:long-deck-main",
     "tab:responsibility-quality",
     "tab:supervision-strategies",
-    "tab:process-analysis",
     "tab:deckbench-editing",
     "tab:deckbench-full-reported"
   ],
@@ -20,8 +20,8 @@
         "zh": "项目实验每行 238 个任务 · 成品质量"
       },
       "note": {
-        "en": "Public results retain their original protocols. Project rows have different recovery and score-conditioned regeneration histories; retained-output means do not establish fixed-budget training gains. Ten tasks informed checkpoint selection.",
-        "zh": "公开结果保留原评测协议。项目行的恢复与按分数重生成历史不同，保留产物均分不代表固定预算的训练增益；其中 10 个任务参与了检查点选择。"
+        "en": "238 original requests and materials; fixed authoring instructions and runtime, medium reasoning, and official scoring at temperature zero. Search, image generation, and external visual criticism are disabled. Base and fine-tuned project models use the same generation protocol. Published comparison rows retain their source protocols.",
+        "zh": "使用原始 238 个请求与材料，固定创作指令和运行环境，采用 medium 推理与温度为零的官方评分。关闭搜索、图像生成和外部视觉评价。项目基座与微调模型采用相同生成协议，公开对照系统保留来源协议。"
       },
       "groups": [
         {
@@ -121,8 +121,8 @@
             }
           ],
           "note": {
-            "en": "",
-            "zh": ""
+            "en": "Main checkpoints: 9B epoch 4; 27B epoch 2. Scores follow the current manuscript.",
+            "zh": "主评测检查点：9B 为 epoch 4，27B 为 epoch 2。分数与当前论文一致。"
           }
         },
         {
@@ -578,134 +578,25 @@
       "id": "threadeval",
       "name": "ThreadEval",
       "scope": {
-        "en": "35 tasks · execution and final realization",
-        "zh": "35 个任务 · 执行过程与最终作品"
+        "en": "35 long-horizon tasks · presentation quality and process fulfillment",
+        "zh": "35 个长程任务 · 成品质量与过程要求落实"
       },
       "note": {
-        "en": "Responsibility assignment, selective supervision, and process diagnosis are separate studies on 35 tasks. Process and Final are reported independently, without a combined Overall score. Ten tasks informed checkpoint selection.",
-        "zh": "责任分配、选择性监督与过程诊断是 35 个任务上的独立研究。Process 与 Final 分开报告，不合成 Overall 总分。其中 10 个任务参与了检查点选择。"
+        "en": "Presentation Overall and Process are independent tracks. Main results include diagnostic judgments with accepted review limits or scoring fallbacks. Ownership and supervision ablations use strictly validated judgments with a separate judge configuration; compare models only within each table.",
+        "zh": "成品 Overall 与 Process 独立报告。主结果包含接受评审限制或评分回退的诊断性判断；责任分配与监督消融使用严格校验的判断和独立 Judge 配置，各表分别比较。"
       },
       "groups": [
         {
-          "id": "thread-responsibility",
+          "id": "thread-main",
           "title": {
-            "en": "Responsibility assignment · MURAL-Presenter-27B",
-            "zh": "责任分配 · MURAL-Presenter-27B"
+            "en": "Main comparison",
+            "zh": "模型主结果"
           },
           "detail": {
-            "en": "35 matched tasks",
-            "zh": "35 个匹配任务"
+            "en": "35 tasks",
+            "zh": "35 个任务"
           },
           "columns": [
-            {
-              "key": "Final",
-              "label": "Final",
-              "digits": 2
-            },
-            {
-              "key": "Knowledge",
-              "label": "Knowledge",
-              "digits": 2
-            },
-            {
-              "key": "Content",
-              "label": "Content",
-              "digits": 2
-            },
-            {
-              "key": "Narrative",
-              "label": "Narrative",
-              "digits": 2
-            },
-            {
-              "key": "Semantic",
-              "label": "Semantic",
-              "digits": 2
-            },
-            {
-              "key": "Visual",
-              "label": "Visual",
-              "digits": 2
-            },
-            {
-              "key": "Layout",
-              "label": "Layout",
-              "digits": 2
-            },
-            {
-              "key": "Readability",
-              "label": "Readability",
-              "digits": 2
-            }
-          ],
-          "rows": [
-            {
-              "model": "Whole-deck",
-              "variant": "",
-              "values": {
-                "Final": 77.65,
-                "Knowledge": 50.96,
-                "Content": 89.38,
-                "Narrative": 89.81,
-                "Semantic": 89.38,
-                "Visual": 94.17,
-                "Layout": 99.47,
-                "Readability": 97.97
-              },
-              "highlight": false
-            },
-            {
-              "model": "All-Single",
-              "variant": "",
-              "values": {
-                "Final": 80.05,
-                "Knowledge": 54.96,
-                "Content": 92.69,
-                "Narrative": 87.57,
-                "Semantic": 89.38,
-                "Visual": 86.52,
-                "Layout": 99.91,
-                "Readability": 98.54
-              },
-              "highlight": false
-            },
-            {
-              "model": "Unit-adaptive",
-              "variant": "",
-              "values": {
-                "Final": 80.14,
-                "Knowledge": 53.76,
-                "Content": 93.74,
-                "Narrative": 89.81,
-                "Semantic": 89.19,
-                "Visual": 87.23,
-                "Layout": 99.94,
-                "Readability": 99.8
-              },
-              "highlight": true
-            }
-          ],
-          "note": {
-            "en": "Shared preparation, tools, and checks are fixed. Local ownership improves mean Final with greater workload; adaptive grouping has no established extra gain over All-Single.",
-            "zh": "共享准备、工具与检查保持一致。局部责任分配提高 Final 均分，同时工作量更大；自适应分组相对 All-Single 的额外收益尚未确立。"
-          }
-        },
-        {
-          "id": "thread-strict",
-          "title": {
-            "en": "Strict Final-only · supervision study",
-            "zh": "严格 Final-only · 监督实验"
-          },
-          "detail": {
-            "en": "35 tasks · 27B · trained arms ep4/128 · Process not evaluated",
-            "zh": "35 个任务 · 27B · 训练组 ep4/128 · 未评 Process"
-          },
-          "columns": [
-            {
-              "key": "Final",
-              "label": "Final",
-              "digits": 2
-            },
             {
               "key": "Deck",
               "label": "Deck",
@@ -715,69 +606,10 @@
               "key": "Page",
               "label": "Page",
               "digits": 2
-            }
-          ],
-          "rows": [
-            {
-              "model": "Vanilla (no SFT)",
-              "variant": "",
-              "values": {
-                "Final": 79.83,
-                "Deck": 73.01,
-                "Page": 95.77
-              },
-              "highlight": false
             },
             {
-              "model": "SFT · Full",
-              "variant": "",
-              "values": {
-                "Final": 81.66,
-                "Deck": 74.92,
-                "Page": 97.38
-              },
-              "highlight": false
-            },
-            {
-              "model": "SFT · Global Selective",
-              "variant": "",
-              "values": {
-                "Final": 83.86,
-                "Deck": 77.92,
-                "Page": 97.71
-              },
-              "highlight": true
-            },
-            {
-              "model": "SFT · Role-wise Selective",
-              "variant": "",
-              "values": {
-                "Final": 80.57,
-                "Deck": 75.29,
-                "Page": 92.88
-              },
-              "highlight": false
-            }
-          ],
-          "note": {
-            "en": "Global − Full: +2.20 Final, 95% CI [−0.22, 4.57]; no established quality gain over Full. Completed-output comparisons do not isolate a causal training effect.",
-            "zh": "Global − Full：Final +2.20，95% CI [−0.22, 4.57]，尚未确立相对 Full 的质量增益；完成产物比较不单独识别训练的因果作用。"
-          }
-        },
-        {
-          "id": "thread-process",
-          "title": {
-            "en": "Process diagnosis · stage fulfillment",
-            "zh": "过程诊断 · 各阶段要求的落实"
-          },
-          "detail": {
-            "en": "35 matched tasks",
-            "zh": "35 个匹配任务"
-          },
-          "columns": [
-            {
-              "key": "Process",
-              "label": "Process",
+              "key": "Overall",
+              "label": "Overall",
               "digits": 2
             },
             {
@@ -799,18 +631,131 @@
               "key": "S",
               "label": "S",
               "digits": 2
+            },
+            {
+              "key": "Process",
+              "label": "Process",
+              "digits": 2
             }
           ],
           "rows": [
             {
+              "model": "Claude Opus 4.7",
+              "variant": "",
+              "values": {
+                "Deck": 77.45,
+                "Page": 78.81,
+                "Overall": 77.86,
+                "R": 87.87,
+                "P": 97.94,
+                "I": 74.37,
+                "S": 81.43,
+                "Process": 85.4
+              },
+              "highlight": false
+            },
+            {
+              "model": "Claude Sonnet 4.6",
+              "variant": "",
+              "values": {
+                "Deck": 72.99,
+                "Page": 81.43,
+                "Overall": 75.52,
+                "R": 80.65,
+                "P": 93.77,
+                "I": 75.4,
+                "S": 79.96,
+                "Process": 82.45
+              },
+              "highlight": false
+            },
+            {
+              "model": "GPT-5.6 Sol",
+              "variant": "",
+              "values": {
+                "Deck": 79.59,
+                "Page": 81.35,
+                "Overall": 80.12,
+                "R": 85.59,
+                "P": 96.65,
+                "I": 78.2,
+                "S": 62.51,
+                "Process": 80.74
+              },
+              "highlight": false
+            },
+            {
+              "model": "GPT-5.6 Terra",
+              "variant": "",
+              "values": {
+                "Deck": 73.61,
+                "Page": 81.05,
+                "Overall": 75.84,
+                "R": 73.57,
+                "P": 83.62,
+                "I": 75.93,
+                "S": 57.83,
+                "Process": 72.74
+              },
+              "highlight": false
+            },
+            {
+              "model": "Gemini 3.5 Flash",
+              "variant": "",
+              "values": {
+                "Deck": 72.28,
+                "Page": 81.81,
+                "Overall": 75.14,
+                "R": 62.44,
+                "P": 81.26,
+                "I": 47.24,
+                "S": 61.23,
+                "Process": 63.09
+              },
+              "highlight": false
+            },
+            {
+              "model": "Kimi K2.6",
+              "variant": "",
+              "values": {
+                "Deck": 64.23,
+                "Page": 78.42,
+                "Overall": 68.49,
+                "R": 67.51,
+                "P": 85.05,
+                "I": 66.51,
+                "S": 72.13,
+                "Process": 72.8
+              },
+              "highlight": false
+            },
+            {
+              "model": "Qwen-3.8-Max",
+              "variant": "",
+              "values": {
+                "Deck": 80.35,
+                "Page": 90.35,
+                "Overall": 83.35,
+                "R": 78.64,
+                "P": 96.92,
+                "I": 80.95,
+                "S": 84.43,
+                "Process": 85.24
+              },
+              "highlight": false
+            },
+            {
               "model": "Qwen-3.5-9B",
               "variant": "",
               "values": {
-                "Process": 45.88,
-                "R": 47.88,
+                "Deck": 53.27,
+                "Page": 63.21,
+                "Overall": 56.25,
+                "R": 54.84,
                 "P": 63.44,
-                "I": 43.3,
-                "S": 28.9
+                "I": 43.61,
+                "S": 33.32,
+                "Process": 48.76
               },
               "highlight": false
             },
@@ -818,11 +763,14 @@
               "model": "MURAL-Presenter-9B",
               "variant": "",
               "values": {
-                "Process": 55.01,
-                "R": 59.45,
+                "Deck": 58.69,
+                "Page": 59.83,
+                "Overall": 59.03,
+                "R": 67.84,
                 "P": 83.6,
-                "I": 43.48,
-                "S": 33.51
+                "I": 36.13,
+                "S": 33.6,
+                "Process": 55.44
               },
               "highlight": true
             },
@@ -830,11 +778,14 @@
               "model": "Qwen-3.8-27B",
               "variant": "",
               "values": {
-                "Process": 78.07,
-                "R": 65.09,
+                "Deck": 72.53,
+                "Page": 86.81,
+                "Overall": 76.81,
+                "R": 76.44,
                 "P": 92.97,
-                "I": 81.54,
-                "S": 72.68
+                "I": 83.93,
+                "S": 73.26,
+                "Process": 81.65
               },
               "highlight": false
             },
@@ -842,18 +793,159 @@
               "model": "MURAL-Presenter-27B",
               "variant": "",
               "values": {
-                "Process": 80.12,
-                "R": 70.84,
-                "P": 95.07,
-                "I": 86.87,
-                "S": 67.71
+                "Deck": 74.84,
+                "Page": 88.85,
+                "Overall": 79.04,
+                "R": 85.73,
+                "P": 95.19,
+                "I": 92.79,
+                "S": 77.27,
+                "Process": 87.75
               },
               "highlight": true
             }
           ],
           "note": {
-            "en": "R: research and transfer; P: executable plans; I: asset preparation and use; S: page realization and inspection. Formal and diagnostic records are included. Process is separate from Final.",
-            "zh": "R：研究与交接；P：可执行规划；I：素材准备与使用；S：页面实现与检查。包含正式与诊断性评测；Process 与 Final 分开报告。"
+            "en": "Presentation Overall weights Deck/Page 70:30. Process averages applicable R/P/I/S scores: research transfer, executable planning, asset use, and slide realization with note alignment. Means include formal and diagnostic judgments.",
+            "zh": "成品 Overall 按 Deck/Page 70:30 加权。Process 汇总适用的 R/P/I/S：研究交接、可执行规划、素材使用、页面落实与讲稿对齐。均分包含正式与诊断性评测。"
+          }
+        },
+        {
+          "id": "thread-responsibility",
+          "title": {
+            "en": "Slide ownership · controlled ablation",
+            "zh": "页面责任 · 受控消融"
+          },
+          "detail": {
+            "en": "35 tasks",
+            "zh": "35 个任务"
+          },
+          "columns": [
+            {
+              "key": "Deck",
+              "label": "Deck",
+              "digits": 2
+            },
+            {
+              "key": "Page",
+              "label": "Page",
+              "digits": 2
+            },
+            {
+              "key": "Overall",
+              "label": "Overall",
+              "digits": 2
+            }
+          ],
+          "rows": [
+            {
+              "model": "Whole-deck",
+              "variant": "",
+              "values": {
+                "Deck": 70.31,
+                "Page": 94.79,
+                "Overall": 77.65
+              },
+              "highlight": false
+            },
+            {
+              "model": "All-Single",
+              "variant": "",
+              "values": {
+                "Deck": 72.4,
+                "Page": 97.91,
+                "Overall": 80.05
+              },
+              "highlight": false
+            },
+            {
+              "model": "Unit-adaptive",
+              "variant": "",
+              "values": {
+                "Deck": 72.36,
+                "Page": 98.3,
+                "Overall": 80.14
+              },
+              "highlight": true
+            }
+          ],
+          "note": {
+            "en": "MURAL-Presenter-27B with fixed shared preparation, tools, and verification. Strictly validated judgments use a separate judge configuration from the main comparison. Local ownership improves mean quality with greater workload; the two local policies have similar means.",
+            "zh": "使用 MURAL-Presenter-27B，固定共享准备、工具与验证。采用严格校验的判断，Judge 配置与主表不同。局部责任分配提高质量均分，同时工作量更大；两种局部分配的均分接近。"
+          }
+        },
+        {
+          "id": "thread-strict",
+          "title": {
+            "en": "Supervision · controlled ablation",
+            "zh": "监督策略 · 受控消融"
+          },
+          "detail": {
+            "en": "35 tasks",
+            "zh": "35 个任务"
+          },
+          "columns": [
+            {
+              "key": "Deck",
+              "label": "Deck",
+              "digits": 2
+            },
+            {
+              "key": "Page",
+              "label": "Page",
+              "digits": 2
+            },
+            {
+              "key": "Overall",
+              "label": "Overall",
+              "digits": 2
+            }
+          ],
+          "rows": [
+            {
+              "model": "Qwen-3.8-27B",
+              "variant": "",
+              "values": {
+                "Deck": 73.01,
+                "Page": 95.77,
+                "Overall": 79.83
+              },
+              "highlight": false
+            },
+            {
+              "model": "Full Supervision",
+              "variant": "",
+              "values": {
+                "Deck": 74.92,
+                "Page": 97.38,
+                "Overall": 81.66
+              },
+              "highlight": false
+            },
+            {
+              "model": "Role-wise Selective",
+              "variant": "",
+              "values": {
+                "Deck": 75.29,
+                "Page": 92.88,
+                "Overall": 80.57
+              },
+              "highlight": false
+            },
+            {
+              "model": "Global Selective",
+              "variant": "",
+              "values": {
+                "Deck": 77.92,
+                "Page": 97.71,
+                "Overall": 83.86
+              },
+              "highlight": true
+            }
+          ],
+          "note": {
+            "en": "The trained 27B models share data and four-epoch training schedules. The main 27B checkpoint uses two epochs. Global − Full: +2.20 Overall, 95% CI [−0.22, 4.57]. Compare scores within this ablation, not against the main table.",
+            "zh": "训练组使用相同数据与四轮训练的 27B 模型，主表 27B 则采用两轮检查点。Global − Full：Overall +2.20，95% CI [−0.22, 4.57]。分数仅在本消融内比较，不与主表混排。"
           }
         }
       ]

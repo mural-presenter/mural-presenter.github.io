@@ -1,6 +1,6 @@
 {
   "../../node_modules/vinext/dist/shims/layout-segment-context.js": {
-    "file": "_next/static/chunks/layout-segment-context-DbHugrl3.js",
+    "file": "_next/static/chunks/layout-segment-context-DCLSgAdd.js",
     "name": "layout-segment-context",
     "src": "../../node_modules/vinext/dist/shims/layout-segment-context.js",
     "isDynamicEntry": true,
@@ -49,7 +49,7 @@
     "name": "site-path"
   },
   "app/AnimalCaseStudy.tsx": {
-    "file": "_next/static/chunks/AnimalCaseStudy-BshTT5K1.js",
+    "file": "_next/static/chunks/AnimalCaseStudy-CD5RxjpO.js",
     "name": "AnimalCaseStudy",
     "src": "app/AnimalCaseStudy.tsx",
     "isDynamicEntry": true,
@@ -63,7 +63,7 @@
     ]
   },
   "app/AnimalNavigation.tsx": {
-    "file": "_next/static/chunks/AnimalNavigation-BjTz0LUb.js",
+    "file": "_next/static/chunks/AnimalNavigation-CCAQpFAP.js",
     "name": "AnimalNavigation",
     "src": "app/AnimalNavigation.tsx",
     "isDynamicEntry": true,
@@ -146,7 +146,7 @@
     ]
   },
   "app/Leaderboard.tsx": {
-    "file": "_next/static/chunks/Leaderboard-B30oudwB.js",
+    "file": "_next/static/chunks/Leaderboard-BvTIvEHT.js",
     "name": "Leaderboard",
     "src": "app/Leaderboard.tsx",
     "isDynamicEntry": true,
@@ -167,7 +167,7 @@
     ]
   },
   "virtual:vinext-app-browser-entry": {
-    "file": "_next/static/chunks/index-CSpSVWKs.js",
+    "file": "_next/static/chunks/index-Cpg8q3l5.js",
     "name": "index",
     "src": "virtual:vinext-app-browser-entry",
     "isEntry": true,
